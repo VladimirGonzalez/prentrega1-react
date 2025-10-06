@@ -1,16 +1,45 @@
-# React + Vite
+# Prentrega 1 – Crea tu landing (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing base para el e‑commerce del curso. Hecha con **React + Vite**. Preentrega 1 Coderhouse React
 
-Currently, two official plugins are available:
+Incluye:
+- `NavBar` con logo, enlaces y `CartWidget`.
+- `ItemListContainer` que recibe un mensaje por **props**.
+- (Opcional) una grilla con 2–3 productos de ejemplo para visualizar el catálogo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Estructura
+```
+src/
+  App.jsx
+  main.jsx
+  index.css
+  components/
+    NavBar.jsx
+    CartWidget.jsx
+    ItemListContainer.jsx
+    ListaProductos.jsx      # opcional
+    TarjetaProducto.jsx     # opcional
+```
 
-## React Compiler
+## Cómo correr
+```bash
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Lo que pide la consigna (check rápido)
+- `NavBar`, `CartWidget`, `ItemListContainer` dentro de `src/components/`.
+- `App.jsx` renderiza `NavBar` e `ItemListContainer`.
+- `NavBar` renderiza `CartWidget`.
+- `ItemListContainer` recibe un **string** por props (mensaje de bienvenida).
 
-## Expanding the ESLint configuration
+Ejemplo:
+```jsx
+<ItemListContainer greeting="¡Bienvenido a mi tienda!" />
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Notas
+- En “Inicio” muestro solo el mensaje. En “Productos” muestro el catálogo demo.
+- Estilos simples en `index.css`.
+- Imágenes de ejemplo de Wikimedia Commons.
+
