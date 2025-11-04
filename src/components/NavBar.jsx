@@ -1,50 +1,41 @@
-import CartWidget from "./CartWidget";
+import { NavLink, Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import CartWidget from "./CartWidget.jsx"
+import { getProducts } from "../data/products.js"
 
-export default function NavBar({ activo = "inicio", onNavigate = () => {} }) {
-  const isActive = (key) => (activo === key ? estilos.enlaceActivo : {});
-  const click = (e, key) => {
-    e.preventDefault();
-    onNavigate(key);
-  };
+export default function NavBar() {
+  const [cats, setCats] = useState([])
+
+  useEffect(() => {
+    let alive = true
+    getProducts().then((ps) => {
+      if (!alive) return
+      const unique = Array.from(new Set(ps.map((p) => p.category)))
+      setCats(unique)
+    })
+    return () => { alive = false }
+  }, []) // <- no dependencias; se carga una vez
 
   return (
-    <header style={estilos.encabezado}>
-      <span style={estilos.logo}>Prentrega1</span>
+    <header className="navbar">
+      <Link to="/" className="logo">MiTienda</Link>
 
-      <nav aria-label="Navegación principal">
-        <ul style={estilos.lista}>
-          <li>
-            <a href="#inicio" onClick={(e) => click(e, "inicio")} style={{ ...estilos.enlace, ...isActive("inicio") }}>
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a href="#productos" onClick={(e) => click(e, "productos")} style={{ ...estilos.enlace, ...isActive("productos") }}>
-              Productos
-            </a>
-          </li>
-        </ul>
+      <nav className="menu">
+        <NavLink to="/productos" className={({ isActive }) => isActive ? "active" : ""}>
+          Todos
+        </NavLink>
+        {cats.map((c) => (
+          <NavLink
+            key={c}
+            to={`/category/${encodeURIComponent(c)}`}
+            className={({ isActive }) => isActive ? "active" : ""}
+          >
+            {c}
+          </NavLink>
+        ))}
       </nav>
 
       <CartWidget />
     </header>
-  );
+  )
 }
-
-const estilos = {
-  encabezado: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "12px 16px",
-    borderBottom: "1px solid #eee",
-    position: "sticky",
-    top: 0,
-    background: "#fff",
-    zIndex: 10,
-  },
-  logo: { fontWeight: 700, fontSize: "20px" },
-  lista: { display: "flex", gap: "16px", listStyle: "none", margin: 0, padding: 0 },
-  enlace: { textDecoration: "none", color: "#222", padding: "6px 8px", borderRadius: 8 },
-  enlaceActivo: { background: "#000", color: "#fff" },
-};
